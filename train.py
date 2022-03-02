@@ -91,6 +91,7 @@ def main(args):
     if torch.cuda.is_available():
         cnn_bilstm_tagger.cuda(gpu_index)
 
+    # added by rightlit(2022.03.02)
     #dataset_type = 'both'
     dataset_type = 'exo'
 
