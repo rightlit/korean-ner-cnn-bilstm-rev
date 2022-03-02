@@ -91,6 +91,9 @@ def main(args):
     if torch.cuda.is_available():
         cnn_bilstm_tagger.cuda(gpu_index)
 
+    #dataset_type = 'both'
+    dataset_type = 'exo'
+
     data_loader = get_loader(data_file_dir=args.data_file_dir_train,
                              vocab=vocab,
                              char_vocab=char_vocab,
@@ -99,7 +102,7 @@ def main(args):
                              batch_size=args.batch_size,
                              shuffle=True,
                              num_workers=args.num_workers,
-                             dataset='both')
+                             dataset=dataset_type)
 
     test_data_loader = get_loader(data_file_dir=args.data_file_dir_test,
                                   vocab=vocab,
