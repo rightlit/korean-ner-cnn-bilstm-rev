@@ -125,6 +125,10 @@ def main(args):
     # inference mode
     cnn_bilstm_tagger.eval()
 
+    # added by rightlit(2022.03.02)
+    #dataset_type = 'klp'
+    dataset_type = 'exo'
+
     test_data_loader = get_loader(data_file_dir=args.data_file_dir_test,
                                   vocab=vocab,
                                   char_vocab=char_vocab,
@@ -133,7 +137,7 @@ def main(args):
                                   batch_size=args.test_batch_size,
                                   shuffle=True,
                                   num_workers=args.num_workers,
-                                  dataset='klp')
+                                  dataset=dataset_type)
 
 
     # Loss and Optimizer
