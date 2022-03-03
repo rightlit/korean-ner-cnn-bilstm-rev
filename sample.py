@@ -215,7 +215,7 @@ def main(args):
             predict_NER_text_string = generate_text_result(predict_text_NER_result_batch, x_split_batch)
             label_text_string = generate_text_result(labl_text_NER_result_batch, x_split_batch)
 
-
+            print('step : ', step_test)
             print("origin:  ",origin_text_string)
             print("predict: ",predict_NER_text_string)
             print("True: ",label_text_string)
