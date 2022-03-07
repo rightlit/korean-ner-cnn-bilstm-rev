@@ -180,8 +180,10 @@ def main(args):
 
             # print("padded_word_tokens_matrix.size()",padded_word_tokens_matrix.size())
             # print("x_text_batch.len()",len(x_text_batch))
-            print("argmax_labels.size()",argmax_labels.size())
-            print("argmax_predictions.size()",argmax_predictions.size())
+            #print("argmax_labels.size()",argmax_labels.size())
+            #print("argmax_predictions.size()",argmax_predictions.size())
+            print("argmax_labels_list.size()",len(argmax_labels_list))
+            print("argmax_predictions_list.size()",len(argmax_predictions_list))
 
 
 
