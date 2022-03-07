@@ -228,6 +228,9 @@ def main(args):
             print(e)
             continue
 
+    print(argmax_labels_list)
+    print(argmax_predictions_list)
+            
     argmax_labels = torch.cat(argmax_labels_list, 0)
     argmax_predictions = torch.cat(argmax_predictions_list, 0)
 
