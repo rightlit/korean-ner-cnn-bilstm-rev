@@ -186,7 +186,9 @@ def get_loader(data_file_dir, vocab, char_vocab, pos_vocab, lex_dict, batch_size
         x_list, x_pos_list, x_split_list, y_list = load_data_and_labels_klp(data_file_dir=data_file_dir)
         y_list = np.array(y_list)
     elif dataset == 'exo':
-        x_list, x_pos_list, x_split_list, y_list = load_data_and_labels_exo(data_file_dir='./data_in/EXOBRAIN_NE_CORPUS_10000.txt')
+        # modified by rightlit(2-22.03.07)
+        #x_list, x_pos_list, x_split_list, y_list = load_data_and_labels_exo(data_file_dir='./data_in/EXOBRAIN_NE_CORPUS_10000.txt')
+        x_list, x_pos_list, x_split_list, y_list = load_data_and_labels_exo(data_file_dir)
         y_list = np.array(y_list)
     elif dataset == 'both':
         x_list, x_pos_list, x_split_list, y_list = load_data_and_labels_klp(data_file_dir=data_file_dir)
