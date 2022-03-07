@@ -231,8 +231,11 @@ def main(args):
     print(argmax_labels_list)
     print(argmax_predictions_list)
             
-    argmax_labels = torch.cat(argmax_labels_list, 0)
-    argmax_predictions = torch.cat(argmax_predictions_list, 0)
+    # modified by rightlit(2022.03.07)
+    #argmax_labels = torch.cat(argmax_labels_list, 0)
+    #argmax_predictions = torch.cat(argmax_predictions_list, 0)
+    argmax_labels = torch.cat(argmax_labels_list, 1)
+    argmax_predictions = torch.cat(argmax_predictions_list, 1)
 
     # Acc
     accuracy = (argmax_labels == argmax_predictions).float().mean()
