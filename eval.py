@@ -150,7 +150,8 @@ def main(args):
 
     print("")
     print("Test:")
-    print("accuracy: %.4f, F1 Score: %.4f" % (accuracy.data[0], macro_f1_score))
+    #print("accuracy: %.4f, F1 Score: %.4f" % (accuracy.data[0], macro_f1_score))
+    print("accuracy: %.4f, F1 Score: %.4f" % (accuracy.data, macro_f1_score))
     print("")
 
 
