@@ -75,25 +75,28 @@ def main(args):
         lex_dict = pickle.load(f)  
   
    
-
     # build models
     cnn_bilstm_tagger = CNNBiLSTM(vocab_size=len(vocab),
-                                     char_vocab_size=len(char_vocab),
-                                        pos_vocab_size=len(pos_vocab),
-                                        lex_ner_size=len(NER_idx_dic),
-                                        embed_size=embed_size,
-                                        hidden_size=hidden_size,
-                                        num_layers=num_layers,
-                                        word2vec=word2vec_matrix,
-                                        num_classes=10)
+                                         char_vocab_size=len(char_vocab),
+                                            pos_vocab_size=len(pos_vocab),
+                                            lex_ner_size=len(NER_idx_dic),
+                                            embed_size=args.embed_size,
+                                            hidden_size=args.hidden_size,
+                                            num_layers=args.num_layers,
+                                            word2vec=word2vec_matrix,
+                                            num_classes=10)
 
     # If you don't use GPU, you can get error here (in the case of loading state dict from Tensor on GPU)
     #  To avoid error, you should use options -> map_location=lambda storage, loc: storage. it will load tensor to CPU
-    cnn_bilstm_tagger.load_state_dict(torch.load(model_load_path, map_location=lambda storage, loc: storage))
+    cnn_bilstm_tagger.load_state_dict(torch.load(args.model_load_path, map_location=lambda storage, loc: storage))
+
+    # create model directory
+    if not os.path.exists(args.model_path):
+        os.mkdir(args.model_path)
 
     if torch.cuda.is_available():
         cnn_bilstm_tagger.cuda(gpu_index)
-    
+
     # inference mode
     cnn_bilstm_tagger.eval()
     
