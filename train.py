@@ -171,14 +171,17 @@ def main(args):
             # f1_score(to_np(argmax_labels), to_np(argmax_predictions), average='macro')
 
             print("Training:")
+            #print("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f, macro-avg f1: %.4f"%
+            #      (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0], f1_score(to_np(argmax_labels), to_np(argmax_predictions), average='macro')))
             print("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f, macro-avg f1: %.4f"%
-                  (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0], f1_score(to_np(argmax_labels), to_np(argmax_predictions), average='macro')))
-                # f_result.write('\n')
-                # f_result.write("Training:")
-                # f_result.write('\n')
-                # f_result.write("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f"%
-                #       (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0]))
-                # f_result.write('\n')
+                  (epoch + 1, args.num_epochs, step + 1, total_step, loss.data, accuracy.data, f1_score(to_np(argmax_labels), to_np(argmax_predictions), average='macro')))
+
+            # f_result.write('\n')
+            # f_result.write("Training:")
+            # f_result.write('\n')
+            # f_result.write("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f"%
+            #       (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0]))
+            # f_result.write('\n')
 
             # except Exception as e: # Cuda out of memory
             #     print("out of memory!, skip this batch")
