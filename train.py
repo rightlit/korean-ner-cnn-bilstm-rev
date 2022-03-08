@@ -224,15 +224,22 @@ def main(args):
                         print(e)
                         continue
 
-                argmax_labels = torch.cat(argmax_labels_list, 0)
-                argmax_predictions = torch.cat(argmax_predictions_list, 0)
+                # modified by rightlit(2022.03.08)
+                #argmax_labels = torch.cat(argmax_labels_list, 0)
+                #argmax_predictions = torch.cat(argmax_predictions_list, 0)
+                argmax_labels = torch.cat(argmax_labels_list, 1)
+                argmax_predictions = torch.cat(argmax_predictions_list, 1)
 
                 # Acc
                 accuracy = (argmax_labels == argmax_predictions).float().mean() #ToDo: Check Dim
 
                 # f1 score
-                argmax_labels_np_array = to_np(argmax_labels)
-                argmax_predictions_np_array = to_np(argmax_predictions)
+                #argmax_labels_np_array = to_np(argmax_labels)
+                #argmax_predictions_np_array = to_np(argmax_predictions)
+                # modified by rightlit(2022.03.08)
+                argmax_labels_np_array = to_np(argmax_labels.squeeze())
+                argmax_predictions_np_array = to_np(argmax_predictions.squeeze())
+                
                 macro_f1_score = f1_score(argmax_labels_np_array, argmax_predictions_np_array, average='macro')
                 if (max_macro_f1_score < macro_f1_score):
                     max_macro_f1_score = macro_f1_score
