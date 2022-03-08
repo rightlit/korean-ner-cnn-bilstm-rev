@@ -75,6 +75,9 @@ def main(args):
 
     # inference mode
     cnn_bilstm_tagger.eval()
+    
+    # modified by rightlit(2022.03.08)
+    dataset_type = 'exo'
 
     test_data_loader = get_loader(data_file_dir=args.data_file_dir_test,
                                   vocab=vocab,
@@ -83,7 +86,8 @@ def main(args):
                                   lex_dict=lex_dict,
                                   batch_size=args.test_batch_size,
                                   shuffle=True,
-                                  num_workers=args.num_workers)
+                                  num_workers=args.num_workers,
+                                  dataset=dataset_type)
 
 
     # Loss and Optimizer
