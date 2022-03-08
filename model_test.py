@@ -19,6 +19,8 @@ from CNN_BiLSTM import CNNBiLSTM
 from data_loader import get_loader
 from sklearn.metrics import f1_score
 
+import argparse
+
 vocab_path='./data_in/vocab_ko_NER.pkl'
 char_vocab_path='./data_in/char_vocab_ko_NER.pkl'
 pos_vocab_path='./data_in/pos_vocab_ko_NER.pkl'
@@ -49,27 +51,33 @@ def to_var(x, volatile=False):
     if torch.cuda.is_available():
         x = x.cuda(gpu_index)
     return Variable(x, volatile=volatile)
-  
-# apply word2vec
-from gensim.models import word2vec
-pretrained_word2vec_file = './data_in/word2vec/ko_word2vec_' + str(embed_size) + '.model'
-wv_model_ko = word2vec.Word2Vec.load(pretrained_word2vec_file)
-word2vec_matrix = wv_model_ko.wv.syn0
 
-# build vocab
-with open(vocab_path, 'rb') as f:
-    vocab = pickle.load(f)
-print("len(vocab): ",len(vocab))
-print("word2vec_matrix: ",np.shape(word2vec_matrix))
-with open(char_vocab_path, 'rb') as f:
-    char_vocab = pickle.load(f)
-with open(pos_vocab_path, 'rb') as f:
-    pos_vocab = pickle.load(f)
-with open(lex_dict_path, 'rb') as f:
-    lex_dict = pickle.load(f)
-    
-# build models
-cnn_bilstm_tagger = CNNBiLSTM(vocab_size=len(vocab),
+  
+def main(args): 
+  
+    # apply word2vec
+    from gensim.models import word2vec
+    pretrained_word2vec_file = './data_in/word2vec/ko_word2vec_' + str(args.embed_size) + '.model'
+    wv_model_ko = word2vec.Word2Vec.load(pretrained_word2vec_file)
+    word2vec_matrix = wv_model_ko.wv.syn0  
+  
+  
+    # build vocab
+    with open(args.vocab_path, 'rb') as f:
+        vocab = pickle.load(f)
+    print("len(vocab): ",len(vocab))
+    print("word2vec_matrix: ",np.shape(word2vec_matrix))
+    with open(args.char_vocab_path, 'rb') as f:
+        char_vocab = pickle.load(f)
+    with open(args.pos_vocab_path, 'rb') as f:
+        pos_vocab = pickle.load(f)
+    with open(args.lex_dict_path, 'rb') as f:
+        lex_dict = pickle.load(f)  
+  
+   
+
+    # build models
+    cnn_bilstm_tagger = CNNBiLSTM(vocab_size=len(vocab),
                                      char_vocab_size=len(char_vocab),
                                         pos_vocab_size=len(pos_vocab),
                                         lex_ner_size=len(NER_idx_dic),
@@ -79,15 +87,28 @@ cnn_bilstm_tagger = CNNBiLSTM(vocab_size=len(vocab),
                                         word2vec=word2vec_matrix,
                                         num_classes=10)
 
-# If you don't use GPU, you can get error here (in the case of loading state dict from Tensor on GPU)
-#  To avoid error, you should use options -> map_location=lambda storage, loc: storage. it will load tensor to CPU
-cnn_bilstm_tagger.load_state_dict(torch.load(model_load_path, map_location=lambda storage, loc: storage))
+    # If you don't use GPU, you can get error here (in the case of loading state dict from Tensor on GPU)
+    #  To avoid error, you should use options -> map_location=lambda storage, loc: storage. it will load tensor to CPU
+    cnn_bilstm_tagger.load_state_dict(torch.load(model_load_path, map_location=lambda storage, loc: storage))
 
-if torch.cuda.is_available():
-    cnn_bilstm_tagger.cuda(gpu_index)
+    if torch.cuda.is_available():
+        cnn_bilstm_tagger.cuda(gpu_index)
     
-# inference mode
-cnn_bilstm_tagger.eval()
+    # inference mode
+    cnn_bilstm_tagger.eval()
+    
+    
+    # 모델성능 f1 87.39
+    while(True):
+    
+        input_str = input('input> ')
+    
+        if input_str == 'exit':
+            break
+        else:
+            NER_print(input_str)  
+            
+            
 
 def preprocessing(x_text_batch, x_pos_batch, x_split_batch):
     x_text_char_item = []
@@ -264,13 +285,36 @@ def NER_print(input_str):
     print("output> ",predict_NER_text_string)
     print("")
     
- 
-# 모델성능 f1 87.39
-while(True):
+            
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('--data_file_dir_train', type=str, default='./data_in/2016klpNER.base_train')
+    parser.add_argument('--data_file_dir_test', type=str, default='./data_in/2016klpNER.base_test')
+    parser.add_argument('--data_file_dir_logs', type=str, default='./data_out/results.txt')
+    parser.add_argument('--vocab_path', type=str, default='./data_in/vocab_ko_NER.pkl')
+    parser.add_argument('--char_vocab_path', type=str, default='./data_in/char_vocab_ko_NER.pkl')
+    parser.add_argument('--pos_vocab_path', type=str, default='./data_in/pos_vocab_ko_NER.pkl')
+    parser.add_argument('--lex_dict_path', type=str, default='./data_in/lex_dict.pkl')
+    parser.add_argument('--model_load_path', type=str, default='./data_in/cnn_bilstm_tagger-131-200_f1_0.8569_maxf1_0.8569_100_200_2.pkl')
+    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--num_workers', type=int, default=2)
+    parser.add_argument('--num_epochs', type=int, default=10)
+    parser.add_argument('--batch_size', type=int, default=2) #64
+    parser.add_argument('--test_batch_size', type=int, default=30)  # 64
     
-    input_str = input('input> ')
-    
-    if input_str == 'exit':
-        break
-    else:
-        NER_print(input_str)
+    #parser.add_argument('--embed_size', type=int, default=100) #50
+    #parser.add_argument('--hidden_size', type=int, default=200) #100
+    # modified by rightlit(2022.03.08)
+    parser.add_argument('--embed_size', type=int, default=100)
+    parser.add_argument('--hidden_size', type=int, default=100)
+
+    parser.add_argument('--learning_rate', type=int, default=1e-1)
+    parser.add_argument('--momentum', type=int, default=0.6)
+
+
+    parser.add_argument('--model_path', type=str, default='./data_out')
+    parser.add_argument('--gpu_index', type=int, default=0)
+
+    args = parser.parse_args()
+    main(args)
