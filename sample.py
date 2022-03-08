@@ -229,7 +229,7 @@ def main(args):
             continue
 
     print(argmax_labels_list)
-    print(''
+    print('')
     print(argmax_predictions_list)
             
     # modified by rightlit(2022.03.07)
