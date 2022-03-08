@@ -242,14 +242,19 @@ def main(args):
     accuracy = (argmax_labels == argmax_predictions).float().mean()
 
     # f1 score
-    argmax_labels_np_array = to_np(argmax_labels)
-    argmax_predictions_np_array = to_np(argmax_predictions)
+    #argmax_labels_np_array = to_np(argmax_labels)
+    #argmax_predictions_np_array = to_np(argmax_predictions)
+    # modified by rightlit(2022.03.08)
+    argmax_labels_np_array = to_np(argmax_labels.squeeze())
+    argmax_predictions_np_array = to_np(argmax_predictions.squeeze())
+    
     macro_f1_score = f1_score(argmax_labels_np_array, argmax_predictions_np_array, average='macro')
 
 
     print("")
     print("Test:")
-    print("accuracy: %.4f, F1 Score: %.4f" % (accuracy.data[0], macro_f1_score))
+    #print("accuracy: %.4f, F1 Score: %.4f" % (accuracy.data[0], macro_f1_score))
+    print("accuracy: %.4f, F1 Score: %.4f" % (accuracy.data, macro_f1_score))
     print("")
 
 
