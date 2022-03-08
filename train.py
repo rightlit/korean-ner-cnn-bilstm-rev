@@ -238,8 +238,10 @@ def main(args):
 
                 print("")
                 print("Test:")
+                #print("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f, F1 Score: %.4f, Max F1 Score: %.4f" %
+                #      (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0], macro_f1_score, max_macro_f1_score))
                 print("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f, F1 Score: %.4f, Max F1 Score: %.4f" %
-                      (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0], macro_f1_score, max_macro_f1_score))
+                      (epoch + 1, args.num_epochs, step + 1, total_step, loss.data, accuracy.data, macro_f1_score, max_macro_f1_score))
                 print("")
                 print("classification_report:")
                 target_names = ['B_LC','B_DT','B_OG','B_TI','B_PS','I','O','<PAD>','<START>','<STOP>']
@@ -248,8 +250,10 @@ def main(args):
                 f_result.write('\n')
                 f_result.write("Test:")
                 f_result.write('\n')
+                #f_result.write("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f, F1 Score: %.4f, Max F1 Score: %.4f" %
+                #      (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0], macro_f1_score, max_macro_f1_score))
                 f_result.write("Epoch [%d/%d], Step [%d/%d], Loss: %.4f, accuracy: %.4f, F1 Score: %.4f, Max F1 Score: %.4f" %
-                      (epoch + 1, args.num_epochs, step + 1, total_step, loss.data[0], accuracy.data[0], macro_f1_score, max_macro_f1_score))
+                      (epoch + 1, args.num_epochs, step + 1, total_step, loss.data, accuracy.data, macro_f1_score, max_macro_f1_score))
                 f_result.write("classification_report:")
                 f_result.write('\n')
                 f_result.write(classification_report(argmax_labels.cpu().data.numpy(), argmax_predictions.cpu().data.numpy(), target_names=target_names))
