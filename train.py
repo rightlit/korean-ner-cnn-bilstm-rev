@@ -245,7 +245,8 @@ def main(args):
                 print("")
                 print("classification_report:")
                 target_names = ['B_LC','B_DT','B_OG','B_TI','B_PS','I','O','<PAD>','<START>','<STOP>']
-                print(classification_report(argmax_labels.cpu().data.numpy(), argmax_predictions.cpu().data.numpy(), target_names=target_names))
+                #print(classification_report(argmax_labels.cpu().data.numpy(), argmax_predictions.cpu().data.numpy(), target_names=target_names))
+                print(classification_report(argmax_labels.cpu().data.numpy(), argmax_predictions.cpu().data.numpy()))
 
                 f_result.write('\n')
                 f_result.write("Test:")
@@ -256,7 +257,8 @@ def main(args):
                       (epoch + 1, args.num_epochs, step + 1, total_step, loss.data, accuracy.data, macro_f1_score, max_macro_f1_score))
                 f_result.write("classification_report:")
                 f_result.write('\n')
-                f_result.write(classification_report(argmax_labels.cpu().data.numpy(), argmax_predictions.cpu().data.numpy(), target_names=target_names))
+                #f_result.write(classification_report(argmax_labels.cpu().data.numpy(), argmax_predictions.cpu().data.numpy(), target_names=target_names))
+                f_result.write(classification_report(argmax_labels.cpu().data.numpy(), argmax_predictions.cpu().data.numpy()))
                 f_result.write('\n')
 
                 cnn_bilstm_tagger.train()
