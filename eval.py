@@ -13,7 +13,7 @@ from data_loader import get_loader
 from sklearn.metrics import classification_report
 from sklearn.metrics import f1_score
 
-
+from data_utils import Vocabulary
 
 def main(args):
     gpu_index = None
