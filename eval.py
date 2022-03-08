@@ -174,8 +174,12 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', type=int, default=10)
     parser.add_argument('--batch_size', type=int, default=2) #64
     parser.add_argument('--test_batch_size', type=int, default=30)  # 64
-    parser.add_argument('--embed_size', type=int, default=100) #50
-    parser.add_argument('--hidden_size', type=int, default=200) #100
+    
+    #parser.add_argument('--embed_size', type=int, default=100) #50
+    #parser.add_argument('--hidden_size', type=int, default=200) #100
+    # modified by rightlit(2022.03.08)
+    parser.add_argument('--embed_size', type=int, default=100)
+    parser.add_argument('--hidden_size', type=int, default=100)
 
     parser.add_argument('--learning_rate', type=int, default=1e-1)
     parser.add_argument('--momentum', type=int, default=0.6)
