@@ -44,6 +44,13 @@ predict_NER_dict = {0: '<PAD>',
 
 NER_idx_dic = {'<unk>': 0, 'LC': 1, 'DT': 2, 'OG': 3, 'TI': 4, 'PS': 5}
 
+# global variable
+global vocab
+global char_vocab
+global pos_vocab
+global lex_dict
+global cnn_bilstm_tagger
+
 def to_np(x):
     return x.data.cpu().numpy()
 
@@ -64,18 +71,23 @@ def main(args):
   
     # build vocab
     with open(args.vocab_path, 'rb') as f:
+        global vocab
         vocab = pickle.load(f)
     print("len(vocab): ",len(vocab))
     print("word2vec_matrix: ",np.shape(word2vec_matrix))
     with open(args.char_vocab_path, 'rb') as f:
+        global char_vocab
         char_vocab = pickle.load(f)
     with open(args.pos_vocab_path, 'rb') as f:
+        global pos_vocab
         pos_vocab = pickle.load(f)
     with open(args.lex_dict_path, 'rb') as f:
+        global lex_dict
         lex_dict = pickle.load(f)  
   
    
     # build models
+    global cnn_bilstm_tagger
     cnn_bilstm_tagger = CNNBiLSTM(vocab_size=len(vocab),
                                          char_vocab_size=len(char_vocab),
                                             pos_vocab_size=len(pos_vocab),
